@@ -8,9 +8,12 @@ import java.awt.geom.AffineTransform;
 
 public class Seaweed {
 	private PVector pos;
-	private int size, width, speed;
-	private Color seaweedColor = new Color(51, 102, 0);
-	private double angle;
+	@SuppressWarnings("unused")
+    private int size, width, speed;
+	@SuppressWarnings("unused")
+    private Color seaweedColor = new Color(51, 102, 0);
+	@SuppressWarnings("unused")
+    private double angle;
 	private Color crabColor = new Color(255, 80, 80);
 	private Color darkerCrabColor = new Color(200, 50, 50);
 

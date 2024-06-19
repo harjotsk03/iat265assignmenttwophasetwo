@@ -24,6 +24,7 @@ public class Orca {
     private double scalex = 1;
     private double scaley = 1;
     private Color bodyColor;
+    @SuppressWarnings("unused")
     private Color bodyDarkerColor;
     Color hasHitColor = new Color(153, 204, 255);
     private Ellipse2D.Double bodyShape;
@@ -33,11 +34,13 @@ public class Orca {
     private Ellipse2D.Double finBottom;
 
     private float speedLimit = 1.0f; // Adjust speed limit as needed
+    @SuppressWarnings("unused")
     private float wallCoef = 50.0f; // Adjust wall coefficient as needed
 
     private Area outline;
     private Timer hitTimer;
     private boolean hasHit = false;
+    @SuppressWarnings("unused")
     private boolean secondFood = false;
     private Arc2D.Double fov;
     private float maxSpeed;
@@ -110,9 +113,12 @@ public class Orca {
         g2.fill(eyeLeft);
         g2.fill(eyeRight);
 
-        // Draw mouth
+        
+        AffineTransform old2 = g2.getTransform();
+        g2.translate(0, 20);
         g2.setStroke(new BasicStroke(2));
-        g2.drawArc(-size / 60, 20, 10, 15, 0, -180);
+        g2.drawLine(0, 0, 10, 0);
+        g2.setTransform(old2);
 
         // Draw fins
         if(hasHit){
@@ -136,6 +142,7 @@ public class Orca {
         Fish target = null;
         float closestDist = Float.MAX_VALUE;
         Orca biggerOrca = null;
+        @SuppressWarnings("unused")
         float closestOrcaDist = Float.MAX_VALUE;
     
         if (!hasHit) {
@@ -147,7 +154,6 @@ public class Orca {
                     closestDist = dist;
                     target = food;
                 } else if (dist == closestDist && food.getSize() > target.getSize()) {
-                    // If distances are equal, prefer the larger food
                     closestDist = dist;
                     target = food;
                 }
@@ -181,12 +187,10 @@ public class Orca {
         }
     
         if (biggerOrca != null) {
-            // Calculate push force away from the bigger orca
             PVector awayForce = PVector.sub(pos, biggerOrca.getLocation());
             awayForce.normalize();
             
-            // Adjust the avoidance factor to control how strong the repulsion is
-            float avoidanceFactor = 0.5f; // Adjust as needed
+            float avoidanceFactor = 0.5f; 
             awayForce.mult(avoidanceFactor);
             
             speed.add(awayForce);
@@ -194,7 +198,6 @@ public class Orca {
             checkCollision(panelSize);
         }
     
-        // applyWallAvoidance(panelSize);
         avoidCollisions(orcaList);
     }
     
@@ -211,9 +214,7 @@ public class Orca {
         }
         speed.add(accel);
         speed.limit(speedLimit);
-        // PVector wallSteerAccel = wallPushForce().div((float) 1);
         float speedValue = speed.mag();
-        // speed.add(wallSteerAccel);
         speed.normalize().mult(speedValue);
         pos.add(speed);
     }
@@ -234,45 +235,12 @@ public class Orca {
 		else if (getFOV().intersects(bottom)) accel.add(0,-1);
 	
 		float speedLimit = 2;
-		accel.mult(coef * speedLimit); // Adjust the coefficient and speed limit
+		accel.mult(coef * speedLimit); 
 		speed.add(accel);
 		speed.limit(speedLimit);
 	
-		pos.add(speed); // Update the position based on speed
+		pos.add(speed);
 	}
-
-    // private void applyWallAvoidance(Dimension panelSize) {
-    //     PVector force = new PVector();
-
-    //     // Left wall force
-    //     float distance = pos.x - size / 2 - wallCoef;
-    //     if (distance < 0) {
-    //         force.add(new PVector(wallCoef / (distance * distance), 0));
-    //     }
-
-    //     // Right wall force
-    //     distance = panelSize.width - pos.x - size / 2 - wallCoef;
-    //     if (distance < 0) {
-    //         force.add(new PVector(-wallCoef / (distance * distance), 0));
-    //     }
-
-    //     // Top wall force
-    //     distance = pos.y - size / 2 - wallCoef;
-    //     if (distance < 0) {
-    //         force.add(new PVector(0, wallCoef / (distance * distance)));
-    //     }
-
-    //     // Bottom wall force
-    //     distance = panelSize.height - pos.y - size / 2 - wallCoef;
-    //     if (distance < 0) {
-    //         force.add(new PVector(0, -wallCoef / (distance * distance)));
-    //     }
-
-    //     speed.add(force);
-    //     speed.limit(speedLimit);
-
-    //     pos.add(speed);
-    // }
 
 	public Shape getFOV() {
 		AffineTransform at = new AffineTransform();
@@ -296,7 +264,6 @@ public class Orca {
                 pushForce.mult(2.0f);
                 speed.add(pushForce);
                 speed.limit(speedLimit);
-
             }
         }
 
@@ -356,6 +323,7 @@ public class Orca {
 		return at.createTransformedShape(outline);
     }
 
+    // BONUS CODE
     public void moveOut(Orca p) {
         PVector direction = PVector.sub(pos, p.getPos()).normalize();
         speed.add(direction);
@@ -365,6 +333,7 @@ public class Orca {
 		return pos;
 	}
 
+    // AGM CODE
 	protected void traceBestFood(ArrayList<Fish> fList) {
 		if (fList.size()>0) {
 			Fish target = fList.get(0);
@@ -379,6 +348,7 @@ public class Orca {
 		}
 	}
 
+    // AGM CODE
     protected void attractedBy(Fish target) {
 		float coef = .2f;	// coefficient of acceleration relative to maxSpeed
 		PVector direction = PVector.sub(target.getPos(), pos).normalize();
@@ -386,6 +356,7 @@ public class Orca {
 		speed.add(acceleration);
 	}
 
+    // AGM CODE
     protected double getAttraction(Fish f) {
 		return f.getSize()*10/PVector.dist(pos, f.getPos());
 	}

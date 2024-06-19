@@ -1,3 +1,5 @@
+// BONUS has been completed
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -7,8 +9,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import processing.core.PVector;
 
 public class OrcaPanel extends JPanel implements ActionListener {
     
@@ -20,7 +20,7 @@ public class OrcaPanel extends JPanel implements ActionListener {
     private int fishSpawnCounter = 0;
     private static final int FISH_SPAWN_DELAY = 150;
     private ArrayList<Bubbles> bubbles;
-    private ArrayList<Fish> fishArray;
+    private static ArrayList<Fish> fishArray;
     private ArrayList<Orca> orcaArray;
     private int bubblesLength = 6;
     private Seaweed seaweed1;
@@ -128,15 +128,8 @@ public class OrcaPanel extends JPanel implements ActionListener {
             }
         }
 
-        for (Orca p : orcaArray) {
-			// p.traceClosestFood(fList);
-			// for (int i = 0; i < fList.size(); i++) {
-			// 	if (p.collides(fList.get(i))) {
-			// 		fList.remove(i);
-			// 		p.increaseSize();
-			// 	}
-			// }
-	
+        // BONUS CODE
+        for (Orca p : orcaArray) {	
 			for (Orca p2 : orcaArray) {
 				if (p2 != p && p2.collides(p)) {
 					if (p.getSize() < p2.getSize()) {
@@ -157,16 +150,6 @@ public class OrcaPanel extends JPanel implements ActionListener {
             Fish fish = fishArray.get(i);
             fish.move();
             fish.checkCollision(size);
-
-            
-            // for (Orca orca : orcaArray) {
-            //     orca.detectFishFunction(fish.pos);
-            //     if (orca.detectFish) {
-            //         caughtFish.add(fish);
-            //         orca.detectFish = false; 
-            //         fishSpawnCounter = 0; 
-            //     }
-            // }
         }
 
         fishArray.removeAll(caughtFish);
@@ -272,5 +255,9 @@ public class OrcaPanel extends JPanel implements ActionListener {
                 }
             }
         }
+    }
+
+    public static ArrayList<Fish> getFishList() {
+		return fishArray;
     }
 }

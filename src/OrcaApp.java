@@ -17,6 +17,7 @@ public class OrcaApp extends JFrame {
     }
 
     public static void main(String[] args) {
+        @SuppressWarnings("unused")
         OrcaApp app = new OrcaApp("Orca and Friends");
     }
 }
